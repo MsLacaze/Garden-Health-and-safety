@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garden Safety Quest</title>
+<style>
+:root{--green:#245c3a;--leaf:#4f8b52;--mint:#e9f5e8;--cream:#fff9e9;--orange:#f2a33a;--ink:#23352a;--red:#b84235;--blue:#dff0f5}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(135deg,#edf6e8,#fff8e7);font-family:Arial,Helvetica,sans-serif;color:var(--ink);line-height:1.5}
+header{background:var(--green);color:white;padding:28px 18px;text-align:center;border-bottom:7px solid var(--orange)}
+header h1{font-size:clamp(2rem,5vw,3.2rem);margin:0 0 5px}
+header p{margin:0;font-size:1.08rem}
+.wrap{max-width:1000px;margin:auto;padding:18px}
+.card{background:white;border:2px solid #d6e6d1;border-radius:18px;padding:20px;margin:18px 0;box-shadow:0 5px 0 #dce9d7}
+h2{color:var(--green);margin-top:0}
+h3{margin-bottom:5px;color:#315e3c}
+.badge{display:inline-block;background:var(--orange);color:#38270c;font-weight:bold;border-radius:999px;padding:5px 12px;font-size:.9rem}
+.progress-shell{height:15px;background:#dce8d7;border-radius:99px;overflow:hidden;margin:10px 0}
+#progress{height:100%;width:0;background:var(--leaf);transition:width .3s}
+.stats{display:flex;gap:12px;flex-wrap:wrap}
+.stat{background:var(--mint);border-radius:12px;padding:10px 14px;font-weight:bold}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.mini{background:var(--cream);border-radius:13px;padding:13px;border:1px solid #efdfb8}
+button{cursor:pointer;border:0;border-radius:10px;padding:11px 15px;font-weight:bold;font-size:1rem;background:var(--green);color:white;margin:5px 4px 5px 0}
+button:hover{filter:brightness(1.1);transform:translateY(-1px)}
+button.secondary{background:#e6f1e3;color:var(--green);border:1px solid #b7d3b2}
+button.choice{display:block;width:100%;text-align:left;background:#f4f8f1;color:var(--ink);border:2px solid #d7e5d2;margin:8px 0}
+button.choice:hover{background:#e7f4e3}
+button.correct{background:#dff3df;border-color:#42964d;color:#194b24}
+button.wrong{background:#ffe6df;border-color:#c95a47;color:#7b271d}
+.feedback{display:none;padding:11px 13px;border-radius:10px;margin:10px 0;background:var(--blue)}
+.feedback.show{display:block}
+label{font-weight:bold;display:block;margin:10px 0 4px}
+select,input[type=text]{padding:10px;border-radius:8px;border:1px solid #9db79b;width:100%;max-width:500px;font-size:1rem}
+.scenario{border-left:6px solid var(--orange);padding:12px 15px;background:#fff8e8;border-radius:8px;margin:12px 0}
+.small{font-size:.92rem;color:#4d6253}
+.hidden{display:none}
+.score-big{font-size:2.2rem;font-weight:bold;color:var(--green)}
+footer{text-align:center;padding:24px;color:#526854}
+hr{border:0;border-top:1px solid #dce8d7;margin:18px 0}
+ul{padding-left:22px}
+@media print{body{background:white}.card{box-shadow:none;break-inside:avoid}button{display:none}}
+</style>
+</head>
+<body>
+<header>
+  <div style="font-size:2.2rem">🌿 🧤 🪴</div>
+  <h1>Garden Safety Quest</h1>
+  <p>Become a Garden Safety Ranger: spot hazards, make smart choices and earn your safety badge.</p>
+</header>
+<div class="wrap">
+  <section class="card">
+    <span class="badge">MISSION BRIEFING</span>
+    <h2>Welcome, Safety Ranger!</h2>
+    <p>Your class is about to work in the school garden. Your mission is to keep people, plants and the environment safe. Complete the missions, read the explanations, and collect points.</p>
+    <div class="stats">
+      <div class="stat">⭐ Points: <span id="score">0</span></div>
+      <div class="stat">🏅 Missions completed: <span id="done">0</span>/5</div>
+      <div class="stat">🎖️ Rank: <span id="rank">Seedling</span></div>
+    </div>
+    <div class="progress-shell"><div id="progress"></div></div>
+    <p class="small">Tip: You learn more by reading the feedback after each answer. You can try questions again, but points are awarded once per question.</p>
+  </section>
+
+  <section class="card" id="mission1">
+    <span class="badge">MISSION 1 · KNOW YOUR KIT</span>
+    <h2>🧰 The Safety Toolkit</h2>
+    <p>Before you begin, learn what each safety rule protects you from. Open each card and discuss why it matters.</p>
+    <div class="grid">
+      <div class="mini"><h3>👂 Follow instructions</h3><p>Listen to the teacher's instructions before starting. Check what the task is, which tools to use, and where to work. If you are unsure, stop and ask.</p></div>
+      <div class="mini"><h3>👀 Look around</h3><p>Check for uneven ground, hoses, tools, branches, insects and other people. Walk—don't rush—and leave enough space for others to work safely.</p></div>
+      <div class="mini"><h3>☀️ Sun and water</h3><p>Wear a hat, use sunscreen and drink water on hot days. Take a break and tell the teacher if you feel dizzy, sick or overheated.</p></div>
+      <div class="mini"><h3>🛠️ Use tools properly</h3><p>Use each tool only for its intended job. Carry it carefully, keep the working end under control, and never play or wave tools around.</p></div>
+      <div class="mini"><h3>📍 Put tools away</h3><p>Return tools to the correct storage area after use. Tools left on the ground can cause trips, cuts or damage to the tool.</p></div>
+      <div class="mini"><h3>🧤 Protect your body</h3><p>Wear closed-toe shoes and any protective clothing required for the task. Tie long hair back. Use gloves when needed for thorns, rough materials or dirty work.</p></div>
+      <div class="mini"><h3>😷 Compost and potting mix</h3><p>Follow the teacher's instructions and product guidance. Avoid breathing dust: work gently, keep your face away, and use a suitable mask when instructed. Wash hands afterwards.</p></div>
+      <div class="mini"><h3>🧼 Clean hands</h3><p>Wash your hands after handling soil, compost, plants or chemicals, and before eating or drinking. This helps reduce the spread of germs and contamination.</p></div>
+      <div class="mini"><h3>🌱 Know your plants</h3><p>Some plants have thorns, irritating sap or can trigger allergic reactions. Don't taste unknown plants or touch unfamiliar sap. Ask before handling an unknown plant.</p></div>
+      <div class="mini"><h3>🩹 Speak up</h3><p>Tell the teacher straight away about cuts, bites, stings, rashes, breathing problems or other injuries. Don't hide an injury or assume it will be fine.</p></div>
+      <div class="mini"><h3>🧪 Chemicals and fertilisers</h3><p>Only use them when the teacher has approved the task. Follow the label and school instructions, wear the required protection, and never mix products or touch them casually.</p></div>
+      <div class="mini"><h3>🦺 Dress for the task</h3><p>Wear closed-toe shoes, a hi-vis vest where required, gloves or other protective gear as directed. Secure loose clothing and jewellery that could catch on tools.</p></div>
+    </div>
+    <button onclick="completeMission(1)">Mark Mission 1 complete ✓</button>
+  </section>
+
+  <section class="card" id="mission2">
+    <span class="badge">MISSION 2 · SAFETY SNAP</span>
+    <h2>⚡ What would you do?</h2>
+    <p>Choose the safest response. Each answer gives you an explanation.</p>
+    <div id="quiz"></div>
+    <button id="nextQuiz" class="secondary hidden" onclick="nextQuestion()">Next question ➜</button>
+    <div id="quizEnd" class="feedback"><strong>Mission complete!</strong> You have finished Safety Snap. Review any explanations before moving on.</div>
+  </section>
+
+  <section class="card" id="mission3">
+    <span class="badge">MISSION 3 · HAZARD HUNTER</span>
+    <h2>🔎 Find the hazards</h2>
+    <p>Imagine this is your garden work area. Select every hazard you can spot. Some choices are safe actions, so think carefully!</p>
+    <div class="scenario">
+      <p><strong>The scene:</strong> A student is wearing jandals. A spade has been left across a path. A hose is stretched around a corner. A classmate is swinging secateurs to make their friends laugh. A bag of potting mix is being tipped from a height, creating dust. Another student has tied back their hair, is wearing closed-toe shoes, and has put tools away after use.</p>
+    </div>
+    <div class="grid" id="hazards">
+      <button class="choice" data-hazard="yes" onclick="hazard(this)">🩴 Wearing jandals in the garden</button>
+      <button class="choice" data-hazard="yes" onclick="hazard(this)">🪏 A spade across a walkway</button>
+      <button class="choice" data-hazard="yes" onclick="hazard(this)">🚿 A hose around a corner</button>
+      <button class="choice" data-hazard="yes" onclick="hazard(this)">✂️ Swinging secateurs as a joke</button>
+      <button class="choice" data-hazard="yes" onclick="hazard(this)">💨 Creating a cloud of potting-mix dust</button>
+      <button class="choice" data-hazard="no" onclick="hazard(this)">👟 Wearing closed-toe shoes and tying hair back</button>
+      <button class="choice" data-hazard="no" onclick="hazard(this)">🧰 Putting tools away after use</button>
+    </div>
+    <div id="hazardFeedback" class="feedback"></div>
+    <button onclick="finishHazards()">Check my hazard hunt</button>
+  </section>
+
+  <section class="card" id="mission4">
+    <span class="badge">MISSION 4 · REAL-LIFE DECISIONS</span>
+    <h2>🧠 Garden Safety Scenarios</h2>
+    <p>Make a decision for each situation. Try to explain your reasoning to a partner before revealing the suggested response.</p>
+    <div class="scenario">
+      <h3>Scenario A: The mystery plant</h3>
+      <p>You see a plant with shiny leaves and unusual berries. Your friend says, “Try one and see what it tastes like!”</p>
+      <button class="secondary" onclick="reveal('a')">Reveal a safe response</button>
+      <div id="a" class="feedback"><strong>Safe response:</strong> Don't eat it or touch it unnecessarily. Unknown plants may be poisonous or irritating. Keep others away and ask the teacher to identify it.</div>
+    </div>
+    <div class="scenario">
+      <h3>Scenario B: The small cut</h3>
+      <p>You scratch your hand on a thorn. It looks tiny, so you think about carrying on without telling anyone.</p>
+      <button class="secondary" onclick="reveal('b')">Reveal a safe response</button>
+      <div id="b" class="feedback"><strong>Safe response:</strong> Stop and tell the teacher. Follow the school's first-aid procedure. Reporting injuries promptly means the wound can be checked and treated properly.</div>
+    </div>
+    <div class="scenario">
+      <h3>Scenario C: The dusty potting mix</h3>
+      <p>A classmate empties a dry bag of potting mix quickly. Dust rises into the air and you are standing nearby.</p>
+      <button class="secondary" onclick="reveal('c')">Reveal a safe response</button>
+      <div id="c" class="feedback"><strong>Safe response:</strong> Move away from the dust and alert the teacher. Follow the product guidance and class instructions, use safe handling methods and the required suitable mask. Avoid creating or breathing dust.</div>
+    </div>
+    <div class="scenario">
+      <h3>Scenario D: The unknown chemical</h3>
+      <p>You find an unlabelled bottle beside the garden shed. Someone says it is probably fertiliser and asks you to use it.</p>
+      <button class="secondary" onclick="reveal('d')">Reveal a safe response</button>
+      <div id="d" class="feedback"><strong>Safe response:</strong> Do not open, smell, touch or use it. Keep people away and tell the teacher. Chemicals must be identified and handled according to their label and school procedures.</div>
+    </div>
+    <div class="scenario">
+      <h3>Scenario E: Feeling unwell</h3>
+      <p>It is hot, you forgot your hat, and you feel dizzy while digging.</p>
+      <button class="secondary" onclick="reveal('e')">Reveal a safe response</button>
+      <div id="e" class="feedback"><strong>Safe response:</strong> Stop working, move to a safe shaded area, tell the teacher immediately and follow their instructions. Drink water if you can do so safely. Do not try to push through dizziness.</div>
+    </div>
+    <button onclick="completeMission(4)">Mark Mission 4 complete ✓</button>
+  </section>
+
+  <section class="card" id="mission5">
+    <span class="badge">MISSION 5 · FINAL CHALLENGE</span>
+    <h2>🏆 The Safety Ranger Quiz</h2>
+    <p>Answer all five questions. Aim for 5 out of 5!</p>
+    <div id="finalQuiz"></div>
+    <button id="submitFinal" onclick="checkFinal()">Check answers</button>
+    <div id="finalResult" class="feedback"></div>
+  </section>
+
+  <section class="card">
+    <span class="badge">EXIT TICKET</span>
+    <h2>🌟 Teach someone else</h2>
+    <p>Complete these statements in your own words. You can discuss them with a partner or write your answers in your book.</p>
+    <label for="exit1">1. One garden hazard I will look for is…</label>
+    <input id="exit1" type="text" placeholder="Write your answer…">
+    <label for="exit2">2. If I get injured, I should…</label>
+    <input id="exit2" type="text" placeholder="Write your answer…">
+    <label for="exit3">3. One safety rule I understand better now is… because…</label>
+    <input id="exit3" type="text" placeholder="Write your answer…">
+    <p class="small">Your teacher may ask you to share one answer with the class.</p>
+    <button onclick="window.print()">Print / Save this activity</button>
+    <button class="secondary" onclick="resetAll()">Start again</button>
+  </section>
+</div>
+<footer>🌱 Tuakau College Horticulture · Work safely, look after each other, and leave the garden better than you found it.</footer>
+<script>
+let points=0, completed=new Set(), awarded=new Set(), qIndex=0, hazardPicks=new Set(), hazardChecked=false;
+function update(){
+ document.getElementById('score').textContent=points;
+ document.getElementById('done').textContent=completed.size;
+ document.getElementById('progress').style.width=(completed.size/5*100)+'%';
+ document.getElementById('rank').textContent=points>=90?'Garden Guardian':points>=60?'Safety Ranger':points>=30?'Growing Ranger':'Seedling';
+}
+function completeMission(n){if(!completed.has(n)){completed.add(n);points+=5;update()} alert('Mission '+n+' marked complete. +5 points!')}
+const qs=[
+ {q:'You need to carry secateurs to another garden bed. What is safest?',a:['Carry them open and swing your arms normally.','Carry them carefully with the sharp end pointing down and follow the teacher’s instructions.','Put them in your pocket.'],c:1,why:'Sharp tools must be controlled while being carried. Keep the sharp end pointing down, walk carefully and never put sharp tools loose in a pocket.'},
+ {q:'Why should tools be returned to their storage area?',a:['So they cannot become trip hazards and can be found safely next time.','So nobody else can use them.','It only matters at the end of the term.'],c:0,why:'Tools left on the ground can trip someone or cause cuts. Correct storage also protects tools and makes them easier to find.'},
+ {q:'After handling soil and compost, what should you do before eating?',a:['Wipe your hands on your trousers.','Wash your hands thoroughly.','Nothing, because soil is natural.'],c:1,why:'Soil and compost can contain microbes. Wash your hands after handling them and before eating or drinking.'},
+ {q:'Which clothing choice is best for ordinary garden work?',a:['Jandals and loose hair.','Closed-toe shoes, long hair tied back, and any task-specific protective gear.','Bare feet so you can feel the soil.'],c:1,why:'Closed-toe shoes help protect feet, and tied-back hair is less likely to catch or get in the way. Extra protective gear depends on the task.'},
+ {q:'You notice a rash after touching a plant. What should you do?',a:['Ignore it and keep gardening.','Touch the plant again to check.','Stop, tell the teacher immediately and follow their advice.'],c:2,why:'Some plants can irritate skin or trigger allergies. Stop contact and report the reaction promptly; seek urgent help for serious symptoms such as trouble breathing.'},
+ {q:'What is the safest approach to fertilisers or garden chemicals?',a:['Use them only as approved, follow the label and school instructions, and wear required protection.','Mix products together to make them stronger.','Smell them to identify them.'],c:0,why:'Never guess what a chemical is, mix products, or use them without permission. Follow the label, teacher instructions and required protective measures.'}
+];
+function renderQuiz(){
+ const el=document.getElementById('quiz');
+ if(qIndex>=qs.length){el.innerHTML='';document.getElementById('nextQuiz').classList.add('hidden');document.getElementById('quizEnd').classList.add('show');completeMission(2);return}
+ const q=qs[qIndex];
+ el.innerHTML='<h3>Question '+(qIndex+1)+' of '+qs.length+'</h3><p><strong>'+q.q+'</strong></p>'+q.a.map((a,i)=>'<button class="choice" onclick="answerQuiz('+i+',this)">'+a+'</button>').join('')+'<div id="qfeedback" class="feedback"></div>';
+ document.getElementById('nextQuiz').classList.add('hidden');
+}
+function answerQuiz(i,btn){
+ const q=qs[qIndex], buttons=document.querySelectorAll('#quiz .choice');
+ buttons.forEach(b=>b.disabled=true);
+ const f=document.getElementById('qfeedback');f.classList.add('show');
+ if(i===q.c){btn.classList.add('correct');f.innerHTML='<strong>Correct! +10 points.</strong> '+q.why;if(!awarded.has('q'+qIndex)){points+=10;awarded.add('q'+qIndex);update()}}
+ else{btn.classList.add('wrong');buttons[q.c].classList.add('correct');f.innerHTML='<strong>Not quite.</strong> '+q.why}
+ document.getElementById('nextQuiz').classList.remove('hidden');
+}
+function nextQuestion(){qIndex++;renderQuiz()}
+function hazard(btn){const i=[...document.querySelectorAll('#hazards button')].indexOf(btn);if(hazardPicks.has(i)){hazardPicks.delete(i);btn.style.outline='';btn.style.background='#f4f8f1'}else{hazardPicks.add(i);btn.style.outline='4px solid #f2a33a';btn.style.background='#fff1cf'}}
+function finishHazards(){
+ const correct=new Set([0,1,2,3,4]), picked=hazardPicks;
+ let good=0;correct.forEach(i=>{if(picked.has(i))good++});
+ let falsePicks=[...picked].filter(i=>!correct.has(i)).length;
+ const score=Math.max(0,good*4-falsePicks*4);
+ document.getElementById('hazardFeedback').classList.add('show');
+ document.getElementById('hazardFeedback').innerHTML='<strong>You identified '+good+' of 5 hazards.</strong> '+(falsePicks?'You also selected '+falsePicks+' safe action(s). ':'')+'The hazards are: jandals (feet are unprotected), a spade on a path (trip/cut risk), a hose around a corner (trip risk), swinging secateurs (injury risk), and dusty potting mix (breathing risk). Closed-toe shoes, tied-back hair and putting tools away are good safety actions. '+(hazardChecked?'':'');
+ if(!hazardChecked){points+=score;hazardChecked=true;update();completeMission(3)}
+}
+function reveal(id){document.getElementById(id).classList.toggle('show')}
+const fqs=[
+ {q:'What should you do if you find a bottle with no label?',opts:['Use a small amount to test it.','Do not touch or use it; tell the teacher.','Smell it carefully.'],a:1,why:'Never guess the identity of an unknown chemical.'},
+ {q:'Why do we wear a hat and use sunscreen on sunny days?',opts:['To reduce exposure to the sun.','To make garden work faster.','Only to look like a gardener.'],a:0,why:'Sun protection helps reduce the risk of sunburn and other harm from UV exposure.'},
+ {q:'Which action is safest around sharp tools?',opts:['Playfully point them at a friend.','Leave them on the ground.','Use them for their intended purpose and carry them carefully.'],a:2,why:'Tools are not toys. Use them only as intended and store them correctly.'},
+ {q:'When should you report an injury or allergic reaction?',opts:['Immediately.','Only if it still hurts tomorrow.','Only if someone else notices.'],a:0,why:'Prompt reporting helps the teacher arrange appropriate first aid and support.'},
+ {q:'What should you do after handling soil or compost?',opts:['Eat a snack straight away.','Wash your hands.','Rub your eyes to remove dust.'],a:1,why:'Handwashing helps reduce the spread of germs and prevents contamination.'}
+];
+function renderFinal(){document.getElementById('finalQuiz').innerHTML=fqs.map((q,i)=>'<div class="scenario"><p><strong>'+(i+1)+'. '+q.q+'</strong></p>'+q.opts.map((o,j)=>'<label style="font-weight:normal"><input type="radio" name="f'+i+'" value="'+j+'"> '+o+'</label>').join('')+'<div id="ff'+i+'" class="feedback"></div></div>').join('')}
+function checkFinal(){
+ let total=0;
+ fqs.forEach((q,i)=>{const sel=document.querySelector('input[name="f'+i+'"]:checked');const f=document.getElementById('ff'+i);f.classList.add('show');if(sel&&Number(sel.value)===q.a){total++;f.innerHTML='✅ Correct. '+q.why}else{f.innerHTML='💡 Suggested answer: '+q.opts[q.a]+'. '+q.why}});
+ const result=document.getElementById('finalResult');result.classList.add('show');result.innerHTML='<div class="score-big">'+total+'/5</div>'+(total===5?'Excellent work—you are ready to be a Garden Safety Ranger!':total>=3?'Good effort. Read the feedback and revisit any rules you missed.':'Keep learning. Review the toolkit and try again.');if(!completed.has(5)){points+=total*5;completed.add(5);update()}
+}
+function resetAll(){location.reload()}
+renderQuiz();renderFinal();update();
+</script>
+</body>
+</html>
